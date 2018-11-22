@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Kivy Camera Example
+title = Kivy Camera Demo
 
 # (str) Package name
 package.name = cameraexample
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas
 # version.filename = %(source.dir)s/main.py
 
 # (str) Application versioning (method 2)
-version = 1.0
+version = 0.5
 
 # (list) Application requirements 
 # android library is also required to run this app on Android platform

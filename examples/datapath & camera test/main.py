@@ -1,16 +1,12 @@
-'''
-Basic camera example
-Default picture is saved as
-/sdcard/org.test.cameraexample/enter_file_name_here.jpg
-'''
 import kivy
 kivy.require('1.8.0')
 
-from os import getcwd
-from os.path import exists, dirname, join, abspath
+from os import getcwd, getenv
+from os.path import exists, dirname, join, expanduser
 from os.path import splitext
 from os import makedirs
 
+from kivy.utils import platform
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
@@ -21,21 +17,30 @@ from plyer import camera
 class CameraDemo(FloatLayout):
     def __init__(self):
         super(CameraDemo, self).__init__()
-        self.cwd = getcwd()
+        path = platform
+        droid = "android"
+        Mac = "macosx"
 
-        if(exists(self.cwd)):
-            #path_name = join(rootfolder,storagetype,folder)
-            path_name = self.cwd
-            self.ids.path_label.text = path_name
+
+        if path == droid :
+            DATA_FOLDER = getenv('EXTERNAL_STORAGE')
         else:
-            
+            expanduser("~")
+        
+        if path == Mac :
+            DATA_FOLDER = getcwd()
+
+        if(exists(DATA_FOLDER)):
+            #path_name = join(rootfolder,storagetype,folder)
+            self.cwd = DATA_FOLDER
+            self.ids.path_label.text = self.cwd
+        else:
+            self.cwd = getcwd()
             self.ids.path_label.text = self.cwd
 
     def do_capture(self):
-        filepath = self.cwd + self.ids.filename_text.text
-        ext = splitext(self.filepath)[-1].lower()
-        print(ext)
-        print(filepath[1].lower)
+        filepath = join(self.cwd,self.ids.filename_text.text)
+        ext = splitext(self.ids.filename_text.text)[-1].lower()
 
         if(exists(filepath)):
             popup = MsgPopup("Picture with this name already exists!")
@@ -55,7 +60,7 @@ class CameraDemo(FloatLayout):
             popup = MsgPopup("Picture saved!")
             popup.open()
         else:
-            popup = MsgPopup("Could not save your picture!")
+            popup = MsgPopup("Could not save your picture in " + filepath)
             popup.open()
 
 
