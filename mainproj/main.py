@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import kivy
 from grade_paper import ProcessPage
-kivy.require('1.8.0')
+kivy.require('1.9.1')
 
 from os import getcwd, getenv
 from os.path import exists, dirname, join, expanduser
@@ -70,18 +70,20 @@ class CameraDemo(FloatLayout):
             curdir = '/sdcard/images/*'
     
         if platform == 'macosx' :
-            curdir = join(getcwd(),'images/test1.jpg')
+            curdir = join(getcwd(),'images/test.jpg')
 
         if platform == 'ios' :
             curdir == "/private/var/mobile/Media/DCIM/"
 
         #load the image
-        image = cv2.imread(curdir)
+        image = cv2.imread('test.jpg')
         ratio = len(image[0]) / 500.0 #used for resizing the image
         original_image = image #make a copy of the original image
 
         #find contours on the smaller image because it's faster
         image = cv2.resize(image, (0,0), fx=1/ratio, fy=1/ratio)
+        cv2.imshow('resized image', image)
+        
         print("past resize1")
 
         #gray and filter the image
@@ -134,7 +136,6 @@ class CameraDemo(FloatLayout):
         #calculation to rotate
         r = [100,100]
         rotate = (np.arctan2(r[0] - mx, r[1] - my) + 0.5 * np.pi) % (2 * np.pi)
-        print("past arctan2")
         
         #sorts point
         #points.sort(key=rotate, reverse=True)
@@ -157,6 +158,8 @@ class CameraDemo(FloatLayout):
                 paper = cv2.warpPerspective(original_image, M, (425, 550))
                 answers, paper2, codes = ProcessPage(paper)
                 cv2.imshow("graded paper", paper2)
+                #popupanswer = MsgPopup(answers)
+                #popupanswer.open()
 
             #draw the contour
             if biggestContour is not None:
@@ -170,6 +173,8 @@ class CameraDemo(FloatLayout):
         except NotImplementedError:
             popuplast = MsgPopup("there is an error while looking for contour")
             cv2.imshow('paper',paper)
+        
+        cv2.waitKey(0)
             
 
 

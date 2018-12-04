@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Kivy Camera Demo
+title = KivCAM
 
 # (str) Package name
 package.name = cameraexample
@@ -125,11 +125,9 @@ fullscreen = 1
 #
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-#p4a.source_dir =
-
+#p4a.source_dir = /Users/azharudinakasah/Desktop/DevEnv/kivy/opencvkivy/mainproj/python-for-android/pythonforandroid/recipes/numpy/patches/fix-numpy.patches
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
-#p4a.local_recipes =
-
+#p4a.local_recipes = /Users/azharudinakasah/Desktop/DevEnv/kivy/opencvkivy/mainproj/python-for-android/pythonforandroid/recipes/numpy/patches/fix-numpy.patches
 # (str) Filename to the hook for p4a
 #p4a.hook =
 
